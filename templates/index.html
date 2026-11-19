@@ -1,0 +1,142 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Stack Data Structure Simulator{% endblock %}
+
+{% block content %}
+
+<h1>Stack Data Structure Simulator</h1>
+
+<p>
+    Practice the Stack data structure using
+    Push, Pop, Peek, and Clear operations.
+</p>
+
+<p>
+    Stack size: <strong>{{ size }}</strong> / 20
+</p>
+
+<div class="row simulator">
+
+    <!-- Operations -->
+    <section class="col-md-4 operations">
+
+        <h2>Operations</h2>
+
+        <form action="{{ url_for('operate') }}" method="POST">
+
+            <label for="st_data">
+                Data (1 to 24 characters)
+            </label>
+
+            <input
+                id="st_data"
+                name="value"
+                type="text"
+                maxlength="24"
+                class="form-control mb-2"
+                autocomplete="off"
+            >
+
+            <div class="d-grid gap-2">
+
+                <button
+                    type="submit"
+                    name="action"
+                    value="push"
+                    class="btn btn-success">
+                    Push
+                </button>
+
+                <button
+                    type="submit"
+                    name="action"
+                    value="pop"
+                    class="btn btn-danger">
+                    Pop
+                </button>
+
+                <button
+                    type="submit"
+                    name="action"
+                    value="peek"
+                    class="btn btn-warning">
+                    Peek
+                </button>
+
+                <button
+                    type="submit"
+                    name="action"
+                    value="clear"
+                    class="btn btn-light">
+                    Clear
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+
+    <!-- Stack data -->
+    <section id="stack" class="col-md-4 stack-area">
+
+        <h2>Stack data</h2>
+
+        {% if items %}
+
+            {% for item in items %}
+
+                <div class="stack-item
+                    {% if highlight and loop.first %}highlight{% endif %}">
+
+                    {{ item }}
+
+                    {% if loop.first %}
+                        <small>TOP</small>
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p class="notice">Stack is empty.</p>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- Removed items -->
+    <section id="popped" class="col-md-4 popped-area">
+
+        <h2>Deleted from stack</h2>
+
+        {% if popped %}
+
+            {% for item in popped|reverse %}
+
+                <div class="stack-item removed">
+                    {{ item }}
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p class="notice">No deleted items yet.</p>
+
+        {% endif %}
+
+    </section>
+
+</div>
+
+<p class="mt-3">
+    Use the buttons to manage your stack.
+</p>
+
+{% endblock %}
